@@ -1,3 +1,4 @@
+use gdk::cairo::FontOptions;
 use gtk::prelude::*;
 use gtk::Application;
 use gtk::ApplicationWindow;
@@ -18,12 +19,6 @@ impl HomeView {
             .valign(gtk::Align::Fill)
             // .homogeneous(true)
             .build();
-
-        let row = gtk::Box::builder()
-            .orientation(Orientation::Horizontal)
-            .halign(gtk::Align::Fill)
-            .build();
-
         column.append(&Self::notebook());
         column
     }
@@ -32,26 +27,22 @@ impl HomeView {
         ApplicationWindow::builder()
             .application(app)
             .show_menubar(true)
-            .title("Home")
+            .title("Personal")
             // .child(&notebook)
             .child(&Self::base_column())
             .resizable(false)
-            .default_height(500)
-            .default_width(350)
+            .default_height(675)
+            .default_width(375)
             .build()
     }
 
     fn notebook() -> Notebook {
         let notebook = Notebook::new();
 
-        notebook.append_page(
-            &AppPages::database_page().0,
-            Some(&AppPages::database_page().1),
-        );
-        notebook.append_page(&AppPages::tools_page().0, Some(&AppPages::tools_page().1));
-        notebook.append_page(&AppPages::api_page().0, Some(&AppPages::api_page().1));
-
-        notebook.append_page(&AppPages::new().page, Some(&AppPages::api_page().1));
+        AppPages::todo(&notebook);
+        AppPages::projects(&notebook);
+        AppPages::meetings(&notebook);
+        AppPages::goals(&notebook);
 
         notebook
     }
