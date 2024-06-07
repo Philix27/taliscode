@@ -1,9 +1,11 @@
 use gtk::prelude::*;
 use gtk::Application;
 use gtk::ApplicationWindow;
+use gtk::Notebook;
 
-use crate::custom_button::AppButton;
 use crate::widgets::layout::AppLayouts;
+
+use super::pages::AppPages;
 
 pub struct HomeView {
     pub screen: gtk::Box,
@@ -12,19 +14,15 @@ pub struct HomeView {
 impl HomeView {
     fn base_column() -> gtk::Box {
         let column = AppLayouts::column();
-
-        column.append(&Self::navbar());
-        column.append(&Self::change_btn());
-
+        column.append(&Self::notebook());
         column
     }
 
-    pub fn builder(app: &Application) -> ApplicationWindow {
-        // Self::row().append(&AppButton::sized_btn("a button"));
+    pub fn window(app: &Application) -> ApplicationWindow {
         ApplicationWindow::builder()
             .application(app)
             .show_menubar(true)
-            .title("Home page")
+            .title("Home")
             // .child(&notebook)
             .child(&Self::base_column())
             .resizable(false)
@@ -33,25 +31,16 @@ impl HomeView {
             .build()
     }
 
-    fn navbar() -> gtk::Box {
-        let button_increase = AppButton::sized_btn("Increase");
+    fn notebook() -> Notebook {
+        let notebook = Notebook::new();
 
-        let button_decrease = AppButton::sized_btn("Decrease");
+        notebook.append_page(
+            &AppPages::database_page().0,
+            Some(&AppPages::database_page().1),
+        );
+        notebook.append_page(&AppPages::tools_page().0, Some(&AppPages::tools_page().1));
+        notebook.append_page(&AppPages::api_page().0, Some(&AppPages::api_page().1));
 
-        let row = AppLayouts::row();
-        row.append(&button_increase);
-        row.append(&button_decrease);
-        row
-    }
-    fn change_btn() -> gtk::Box {
-        let button = AppButton::sized_btn("Sample");
-        button.connect_clicked(|button| {
-            button.set_label("Hello World!");
-            button.color();
-        });
-
-        let row = AppLayouts::row();
-        row.append(&button);
-        row
+        notebook
     }
 }
