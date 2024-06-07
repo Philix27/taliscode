@@ -1,5 +1,6 @@
 mod custom_button;
 mod screens;
+mod widgets;
 
 use gtk::prelude::*;
 use gtk::{glib, Application};

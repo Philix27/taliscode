@@ -1,31 +1,17 @@
 use gtk::prelude::*;
 use gtk::Application;
 use gtk::ApplicationWindow;
-use gtk::Orientation;
 
 use crate::custom_button::AppButton;
+use crate::widgets::layout::AppLayouts;
 
 pub struct HomeView {
     pub screen: gtk::Box,
 }
 
 impl HomeView {
-    fn row() -> gtk::Box {
-        let row_box = gtk::Box::builder()
-            .orientation(Orientation::Horizontal)
-            .spacing(40)
-            .build();
-
-        row_box
-    }
-    fn column() -> gtk::Box {
-        gtk::Box::builder()
-            .orientation(Orientation::Vertical)
-            .halign(gtk::Align::Center)
-            .build()
-    }
     fn base_column() -> gtk::Box {
-        let column = Self::column();
+        let column = AppLayouts::column();
 
         column.append(&Self::navbar());
         column.append(&Self::change_btn());
@@ -52,7 +38,7 @@ impl HomeView {
 
         let button_decrease = AppButton::sized_btn("Decrease");
 
-        let row = Self::row();
+        let row = AppLayouts::row();
         row.append(&button_increase);
         row.append(&button_decrease);
         row
@@ -64,7 +50,7 @@ impl HomeView {
             button.color();
         });
 
-        let row = Self::row();
+        let row = AppLayouts::row();
         row.append(&button);
         row
     }
