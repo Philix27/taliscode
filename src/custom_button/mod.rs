@@ -1,4 +1,5 @@
 mod imp;
+pub mod label;
 
 use glib::Object;
 use gtk::{glib, Button, CssProvider};
@@ -16,22 +17,12 @@ impl AppButton {
         Object::builder().property("label", label).build()
     }
     pub fn sized_btn(label: &str) -> Button {
-        let css_provider = CssProvider::new();
-        css_provider.load_from_string(
-            "
-            button {
-                background: #3498db;
-                color: white;
-            }
-        ",
-        );
-
         Button::builder()
             .label(label)
-            .margin_top(12)
-            .margin_bottom(12)
-            .margin_start(12)
-            .margin_end(12)
+            .margin_top(5)
+            .margin_bottom(5)
+            .margin_start(5)
+            .margin_end(5)
             .build()
     }
 }
