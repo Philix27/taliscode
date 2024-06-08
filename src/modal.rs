@@ -5,16 +5,9 @@ use gtk::{
     prelude::*,
 };
 
-fn main() -> glib::ExitCode {
-    let application = gtk::Application::builder()
-        .application_id("com.github.gtk-rs.examples.dialog")
-        .build();
 
-    application.connect_activate(build_ui);
-    application.run()
-}
 
-fn build_ui(application: &gtk::Application) {
+pub fn build_modal(application: &gtk::Application) {
     let button = gtk::Button::builder()
         .label("Open Dialog")
         .halign(gtk::Align::Center)

@@ -13,7 +13,7 @@ const APP_ID: &str = "org.gtk_rs.HelloWorld2";
 fn main() -> () {
     gtk::init().expect("Failed to initialize gtk");
 
-    let window  = ApplicationWindow::builder()
+    let window = ApplicationWindow::builder()
         .application(app)
         .show_menubar(true)
         .title("My GTK App cope")
@@ -34,8 +34,5 @@ fn main() -> () {
     notebook.append_page(&page1_label, Some(&page1_label));
     notebook.append_page(&page2_label, Some(&page2_label));
 
-
     window(&notebook);
-
-
 }
