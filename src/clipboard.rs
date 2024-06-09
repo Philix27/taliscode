@@ -4,6 +4,7 @@ use gtk::glib;
 use gtk::prelude::*;
 
 pub fn build_clip(application: &gtk::Application) {
+
     let window = gtk::ApplicationWindow::builder()
         .application(application)
         .title("Clipboard")
@@ -86,11 +87,14 @@ pub fn build_clip(application: &gtk::Application) {
         .pixel_size(96)
         .paintable(&asset_paintable)
         .build();
+    
     texture_container.append(&image_from);
+
     let copy_texture_btn = gtk::Button::builder()
         .label("Copy")
         .valign(gtk::Align::Center)
         .build();
+    
     copy_texture_btn.connect_clicked(clone!(@weak clipboard, @weak image_from => move |_btn| {
         let texture = image_from.paintable().and_downcast::<gdk::Texture>().unwrap();
         clipboard.set_texture(&texture);
@@ -102,10 +106,12 @@ pub fn build_clip(application: &gtk::Application) {
         .icon_name("image-missing")
         .build();
     texture_container.append(&image_into);
+
     let paste_texture_btn = gtk::Button::builder()
         .label("Paste")
         .valign(gtk::Align::Center)
         .build();
+
     paste_texture_btn.connect_clicked(clone!(@weak clipboard => move |_btn| {
         clipboard.read_texture_async(gio::Cancellable::NONE, clone!(@weak image_into => move |res| {
             if let Ok(Some(texture)) = res {
@@ -113,6 +119,7 @@ pub fn build_clip(application: &gtk::Application) {
             }
         }));
     }));
+
     texture_container.append(&paste_texture_btn);
     container.append(&texture_container);
 
